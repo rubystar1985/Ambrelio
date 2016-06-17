@@ -17,6 +17,10 @@ class PostsController < ApplicationController
     end
   end
 
+  def top
+    @posts = Post.joins(:ratings).group('posts.id').order('avg(ratings.rate) desc').limit(params[:top].to_i)
+    render json: @posts
+  end
 
   def new_post
     @post = Post.new post_params
